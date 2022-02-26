@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700');
+@import url('https://fonts.googleapis.com/css?family=Source Code Pro');
+
+:root {
+   --background: #f8f8f8;
+   --link-visited: #277e4c;
+   --link-highlight: #2ac23c;
+   --code-block: #E8E8E8;
+   --color: #111;
+   --heading: #000;
+   --table-separator: #888;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+       --background: #f8f8f8;
+       --link-visited: #277e4c;
+       --link-highlight: #2ac23c;
+       --code-block: #E8E8E8;
+       --color: #111;
+       --heading: #000;
+       --table-separator: #888;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #111;
+        --link-visited: #277e4c;
+        --link-highlight: #2ac23c;
+        --code-block: #222;
+        --color: #EEE;
+        --heading: #F8F8F8;
+        --table-separator: #888;
+    }
+}
+
+html {
+    font-size: 115%;
+}
+
+body {
+    font-family: "Lato";
+    color: var(--color);
+    background-color: var(--background);
+    margin: 0px auto;
+    max-width: 40rem;
+    padding: 1rem;
+}
+
+a,
+a:visited {
+    color: var(--link-visited);
+}
+
+a:hover,
+a:focus,
+a:active {
+    color: var(--link-highlight);
+}
+
+p {
+    font-size: 1rem;
+    margin: 0.5rem 0px;
+    line-height: 1.2;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--heading);
+    font-family: "Montserrat";
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+code {
+    font-family: "Source Code Pro";
+    background: var(--code-block);
+    padding: 0.25rem;
+    border-radius: 0.3rem;
+}
+
+blockquote {
+    margin-left: 1.2rem;
+    border-left: 3px solid var(--table-separator);
+    padding-left: 0.8rem;
+}
+
+li {
+    line-height: 1.4;
+    padding: 0.1rem;
+}
+
+table {
+    min-width: 50%;
+    margin: 0 auto;
+    background: var(--code-block);
+    border-width: 0;
+    border-radius: 0.3rem;
+    border-collapse: collapse;
+}
+
+thead {
+    border-bottom: thin solid var(--table-separator);
+}
+
+th {
+    font-family: "Montserrat";
+}
+
+th,
+td {
+    padding: 0.4rem 1rem;
+}
