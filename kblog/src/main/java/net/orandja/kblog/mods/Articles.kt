@@ -10,6 +10,7 @@ import net.orandja.kblog.domain.Articles
 import net.orandja.kblog.domain.Resources
 import net.orandja.kblog.domain.renderMarkdownToHtml
 
+/** Delivers .art.md articles at root */
 object Articles : KtorModule {
 
     private suspend fun asHTML(articleId: String): String? {

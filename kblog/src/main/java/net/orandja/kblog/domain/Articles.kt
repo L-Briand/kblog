@@ -6,7 +6,6 @@ import kotlin.io.path.exists
 import kotlin.io.path.relativeTo
 
 data class Article(val name: String, val resource: Resource)
-
 object Articles {
 
     /**

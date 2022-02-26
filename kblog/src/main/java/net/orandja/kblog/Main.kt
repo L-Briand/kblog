@@ -15,7 +15,7 @@ val MODULES = listOf(
 
 fun main(args: Array<String>) {
     APP_CONFIG = mainBody { ArgParser(args).parseInto(Config::Cli) }
-    validatePathOrExit()
+    validateConfigPathsOrExit()
 
     embeddedServer(Netty, port = APP_CONFIG.port.toInt()) {
         MODULES.onEach { it.module(this) }

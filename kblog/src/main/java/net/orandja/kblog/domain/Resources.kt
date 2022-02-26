@@ -8,6 +8,7 @@ import kotlin.io.path.exists
 import kotlin.io.path.isRegularFile
 
 object Resources {
+    /** Get file inside [APP_CONFIG.resources] folder */
     fun getResource(resourceName: String): Resource? {
         // check for queried file
         val resourceFilePath = Path(APP_CONFIG.resources.toPath().toString(), resourceName)
@@ -27,5 +28,6 @@ object Resources {
     private val templates =
         Templates(resourcesTemplateProvider, config = TemplateConfig(autoEscapeMode = AutoEscapeMode.RAW))
 
+    /** Get a [Template] from inside [Appconfig.resources]/templates/ folder */
     suspend fun template(name: String) = templates.get(name)
 }

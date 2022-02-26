@@ -28,8 +28,8 @@ private val extensions = listOf(
 private val parser = Parser.builder().extensions(extensions).build()
 private val renderer = HtmlRenderer.builder().extensions(extensions).build()
 
-/** Create an iterator to navigate through a tree like graph node */
-class TreeNodeIterator(val base: Node) : Iterator<Node> {
+/** Create an iterator to navigate through a [org.commonmark.node.Node] */
+class TreeNodeIterator(private val base: Node) : Iterator<Node> {
     private var visited: Node? = null
     private var current: Node = base
 

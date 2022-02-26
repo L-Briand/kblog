@@ -28,7 +28,7 @@ interface Config {
             .default("0.0.0.0")
 
         override val extension: String by parser
-            .storing("-e", "--extension", help = "extension used to select articles inside [-d]")
+            .storing("-e", "--extension", help = "extension used to select articles inside [-d]/public")
             .default(".art.md")
 
         override val resources: String by parser
@@ -40,7 +40,7 @@ interface Config {
     val templates: String get() = "$resources${File.separator}templates"
 }
 
-fun validatePathOrExit() {
+fun validateConfigPathsOrExit() {
     listOf(
         Path(APP_CONFIG.resources),
         Path(APP_CONFIG.public),
