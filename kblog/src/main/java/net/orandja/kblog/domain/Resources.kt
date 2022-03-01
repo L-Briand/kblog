@@ -25,9 +25,10 @@ object Resources {
         override suspend fun newGet(template: String): TemplateContent? =
             getResource("/templates/$template")?.contentAsString()?.let { TemplateContent(it) }
     }
+
     private val templates =
         Templates(resourcesTemplateProvider, config = TemplateConfig(autoEscapeMode = AutoEscapeMode.RAW))
 
-    /** Get a [Template] from inside [Appconfig.resources]/templates/ folder */
-    suspend fun template(name: String) = templates.get(name)
+    /** Get a [Template] from inside [APP_CONFIG.resources]/templates/ folder */
+    suspend fun template(name: String) = if (getResource("/templates/$name") != null) templates.get(name) else null
 }

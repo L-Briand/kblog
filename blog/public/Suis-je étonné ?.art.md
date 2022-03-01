@@ -1,3 +1,3 @@
-# You should go back home :D
+# Not a 404
 
 [Back home](./)

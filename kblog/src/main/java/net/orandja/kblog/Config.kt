@@ -15,7 +15,6 @@ lateinit var APP_CONFIG: Config
 interface Config {
     val port: Short
     val listen: String
-    val extension: String
     val resources: String
 
     class Cli(parser: ArgParser) : Config {
@@ -26,10 +25,6 @@ interface Config {
         override val listen: String by parser
             .storing("-l", "--listen", help = "listen to address") { if (isNullOrBlank()) "0.0.0.0" else this }
             .default("0.0.0.0")
-
-        override val extension: String by parser
-            .storing("-e", "--extension", help = "extension used to select articles inside [-d]/public")
-            .default(".art.md")
 
         override val resources: String by parser
             .storing("-d", "--directory", help = "root folder used to deliver content")

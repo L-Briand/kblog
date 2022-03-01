@@ -4,12 +4,12 @@ import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.mainBody
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import net.orandja.kblog.mods.Articles
+import net.orandja.kblog.mods.MdDocuments
 import net.orandja.kblog.mods.ResourcesProvider
 
 /** All available apis are registered here. Order is important */
 val MODULES = listOf(
-    Articles,
+    MdDocuments,
     ResourcesProvider,
 )
 

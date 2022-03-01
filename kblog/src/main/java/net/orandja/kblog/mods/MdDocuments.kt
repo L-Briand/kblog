@@ -6,17 +6,18 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 import net.orandja.kblog.KtorModule
-import net.orandja.kblog.domain.Articles
+import net.orandja.kblog.domain.MdFile
 import net.orandja.kblog.domain.Resources
 import net.orandja.kblog.domain.renderMarkdownToHtml
 
-/** Delivers .art.md articles at root */
-object Articles : KtorModule {
+/** Delivers .md documents at root path */
+object MdDocuments : KtorModule {
 
-    private suspend fun asHTML(articleId: String): String? {
-        val article = Articles.article(articleId) ?: return null
-        val mdRender = renderMarkdownToHtml(article.resource.contentAsString())
-        return Resources.template("article.html")(
+    private suspend fun asHTML(documentId: String): String? {
+        val document = MdFile.document(documentId) ?: return null
+        val template = document.extensions.firstNotNullOfOrNull { Resources.template("$it.html") } ?: return null
+        val mdRender = renderMarkdownToHtml(document.resource.contentAsString())
+        return template(
             "title" to mdRender.title,
             "content" to mdRender.renderedDocument,
         )
@@ -27,19 +28,19 @@ object Articles : KtorModule {
         call.respondText(ContentType.Text.Html, HttpStatusCode.NotFound) { result }
     }
 
-    private fun Route.getArticle() {
+    private fun Route.getDocument() {
         get("/") {
             val result = asHTML("index") ?: return@get notFound()
             call.respondText(ContentType.Text.Html) { result }
         }
-        get("/{articleId}") {
-            val articleId = call.parameters["articleId"] ?: return@get notFound()
-            val result = asHTML(articleId) ?: return@get notFound()
+        get("/{documentId}") {
+            val documentId = call.parameters["documentId"] ?: return@get notFound()
+            val result = asHTML(documentId) ?: return@get notFound()
             call.respondText(ContentType.Text.Html) { result }
         }
     }
 
     override fun Routing.module() {
-        getArticle()
+        getDocument()
     }
 }
