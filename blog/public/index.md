@@ -56,6 +56,8 @@ elements.
 
 [Markdown Guide](https://www.markdownguide.org)
 
+[local](l'été-c'est-bien.md)
+
 ### Image
 
 ![alt text](https://www.markdownguide.org/assets/images/tux.png)

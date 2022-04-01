@@ -9,7 +9,7 @@ group = rootProject.property("group") as String
 version = rootProject.property("libVersion") as String
 
 application {
-    mainClass.set("${project.group}.MainKt")
+    mainClass.set("${project.group}.Main")
 }
 
 dependencies {
@@ -23,10 +23,14 @@ dependencies {
     implementation("io.ktor:ktor-server-cors:$ktorVersion")
     implementation("io.ktor:ktor-server-compression:$ktorVersion")
     implementation("io.ktor:ktor-server-caching-headers:$ktorVersion")
-    implementation("ch.qos.logback:logback-classic:1.2.10")
+    implementation("ch.qos.logback:logback-classic:1.2.11")
+
+    // DI
+    val koinVersion = "3.2.0-beta-1"
+    implementation("io.insert-koin:koin-core:$koinVersion")
 
     // markdown parser - html generator
-    val commonmarkVersion = "0.18.1"
+    val commonmarkVersion = "0.18.2"
     implementation("org.commonmark:commonmark:$commonmarkVersion")
     implementation("org.commonmark:commonmark-ext-ins:$commonmarkVersion")
     implementation("org.commonmark:commonmark-ext-gfm-tables:$commonmarkVersion")
@@ -38,7 +42,7 @@ dependencies {
     implementation("org.commonmark:commonmark-ext-yaml-front-matter:$commonmarkVersion")
 
     // Template processor
-    implementation("com.soywiz.korlibs.korte:korte:2.4.12")
+    implementation("com.soywiz.korlibs.korte:korte:2.7.0")
 
     // tests
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")

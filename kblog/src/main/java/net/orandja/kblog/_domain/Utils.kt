@@ -1,7 +1,6 @@
-package net.orandja.kblog.domain
+package net.orandja.kblog._domain
 
 import java.text.Normalizer
-import kotlin.io.path.Path
 
 val DIACRITICS_REGEX = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 val ALLOWED_CHARS = listOf('a'..'z', 'A'..'Z', '0'..'9').flatten() + listOf('_', '-')
@@ -16,4 +15,3 @@ fun String.sanitize(): String {
     return String(sanitized.toCharArray()).trim('-')
 }
 
-fun String.toPath() = Path(this)

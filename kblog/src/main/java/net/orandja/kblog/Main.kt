@@ -4,20 +4,48 @@ import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.mainBody
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import net.orandja.kblog.mods.MdDocuments
-import net.orandja.kblog.mods.ResourcesProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import net.orandja.kblog._domain.IConfig
+import net.orandja.kblog._domain.endpoints.IEndpoints
+import net.orandja.kblog.cases.KoinModuleCases
+import net.orandja.kblog.cases.PathValidation
+import net.orandja.kblog.infra.Config
+import net.orandja.kblog.infra.KoinModuleInfra
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 
-/** All available apis are registered here. Order is important */
-val MODULES = listOf(
-    MdDocuments,
-    ResourcesProvider,
-)
+class Main : KoinComponent {
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) = Main().start(args)
+    }
 
-fun main(args: Array<String>) {
-    APP_CONFIG = mainBody { ArgParser(args).parseInto(Config::Cli) }
-    validateConfigPathsOrExit()
+    fun start(args: Array<String>) = runBlocking {
+        val config = mainBody { ArgParser(args).parseInto(::Config) }
+        val configMod = module { single<IConfig> { config } }
+        startKoin {
+            modules(configMod)
+            modules(KoinModuleCases.modules)
+            modules(KoinModuleInfra.modules)
+        }
 
-    embeddedServer(Netty, port = APP_CONFIG.port.toInt()) {
-        MODULES.onEach { it.module(this) }
-    }.start(true)
+        get<PathValidation>().validateConfigPathsOrExit()
+
+        runServer()
+
+        stopKoin()
+    }
+
+    private suspend fun runServer() = withContext(Dispatchers.IO) {
+        val config = get<IConfig>()
+        embeddedServer(Netty, port = config.port.toInt()) {
+            get<IEndpoints>().endpoints.onEach { it.route(this) }
+        }.start(true)
+    }
 }
+

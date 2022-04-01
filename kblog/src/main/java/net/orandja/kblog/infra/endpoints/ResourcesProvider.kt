@@ -1,17 +1,20 @@
-package net.orandja.kblog.mods
+package net.orandja.kblog.infra.endpoints
 
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.plugins.*
 import io.ktor.server.routing.*
-import net.orandja.kblog.APP_CONFIG
-import net.orandja.kblog.KtorModule
-import net.orandja.kblog.domain.toPath
+import net.orandja.kblog._domain.IConfig
+import net.orandja.kblog._domain.IKtorModule
+import net.orandja.kblog.cases.toPath
+import org.koin.core.component.KoinComponent
 import java.time.ZonedDateTime
 
-object ResourcesProvider : KtorModule {
-    override fun Routing.module() {
+class ResourcesProvider(
+    private val config: IConfig
+) : IKtorModule, KoinComponent {
+    override fun Routing.route() {
         install(Compression)
         install(CachingHeaders) {
             options { outgoingContent ->
@@ -27,7 +30,7 @@ object ResourcesProvider : KtorModule {
             }
         }
         static("public") {
-            staticRootFolder = APP_CONFIG.resources.toPath().toFile()
+            staticRootFolder = config.resources.toPath().toFile()
             files("public")
         }
     }

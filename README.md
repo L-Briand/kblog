@@ -1,11 +1,15 @@
 # ![kblog Logo](logo.png) KBlog
 
-A simple blog software using kotlin ktor with markdown and templating. It uses only `.md` files and static files for
-content.
+A simple blog software using kotlin ktor with markdown and templating.
+
+This software is in a really early stage, the goal is to provide a basic blog like site with only a file tree, markdown
+files and templates. It as many caveats and is no more than a proof of concept that I personally use for myself.
+However, the code isn't too complicated for the kotlin fox out there, take a look for yourself and feel free to
+contribute !
 
 ## How to build
 
-You need to have a working `1.8+` jre environment. In root directory :
+You need to have a working `1.8+` jre environment. Clone the repository and execute in root project directory :
 
 ```bash
 ./gradlew build
@@ -39,7 +43,7 @@ Then run it : `./kblog-0.0.1/bin/kblog`. (A `kblog.bat` exists for windows.)
 
 By default, it uses the sub-folder `blog` at where the program is launched as a root directory for content delivery. If
 you have cloned this repository you should have a `blog` folder at root with minimal content just for
-show. [You can take a look by yourself.](./blog)
+show. [You can take a look by yourself of its content.](./blog)
 
 Inside the `blog` folder lies two sub-folder :
 
