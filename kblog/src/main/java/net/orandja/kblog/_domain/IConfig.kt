@@ -3,6 +3,7 @@ package net.orandja.kblog._domain
 import java.io.File
 
 interface IConfig {
+    val host: String
     val port: Short
     val listen: String
     val resources: String

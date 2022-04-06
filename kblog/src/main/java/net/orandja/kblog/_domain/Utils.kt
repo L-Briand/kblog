@@ -14,4 +14,3 @@ fun String.sanitize(): String {
     val sanitized = removeDiacritics().trim().map { if (ALLOWED_CHARS.contains(it)) it else '-' }
     return String(sanitized.toCharArray()).trim('-')
 }
-

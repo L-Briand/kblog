@@ -5,6 +5,10 @@ import com.xenomachina.argparser.default
 import net.orandja.kblog._domain.IConfig
 
 class Config(parser: ArgParser) : IConfig {
+    override val host: String by parser
+        .storing("-l", "--listen", help = "bind listen address")
+        .default("0.0.0.0")
+
     override val port: Short by parser
         .storing("-p", "--port", help = "used port") { toShortOrNull() ?: 8080 }
         .default(8080)
