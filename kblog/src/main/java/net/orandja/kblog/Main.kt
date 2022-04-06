@@ -2,11 +2,9 @@ package net.orandja.kblog
 
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.mainBody
+import io.ktor.server.cio.*
 import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import net.orandja.kblog._domain.IConfig
 import net.orandja.kblog._domain.endpoints.IEndpoints
 import net.orandja.kblog.cases.KoinModuleCases
@@ -41,11 +39,14 @@ class Main : KoinComponent {
         stopKoin()
     }
 
-    private suspend fun runServer() = withContext(Dispatchers.IO) {
+    private fun runServer() {
         val config = get<IConfig>()
-        embeddedServer(Netty, port = config.port.toInt()) {
+        embeddedServer(
+            factory = CIO,
+            host = config.listen,
+            port = config.port.toInt(),
+        ) {
             get<IEndpoints>().endpoints.onEach { it.route(this) }
         }.start(true)
     }
 }
-

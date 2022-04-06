@@ -2,8 +2,8 @@ package net.orandja.kblog.infra.markdown
 
 import net.orandja.kblog._domain.markdown.IMarkdownRenderer
 import net.orandja.kblog._domain.markdown.IMarkdownRenderer.Markdown
-import net.orandja.kblog.infra.markdown.iterator.NodeIterator
 import net.orandja.kblog.infra.markdown.extensions.LinkerModifier
+import net.orandja.kblog.infra.markdown.iterator.NodeIterator
 import org.commonmark.Extension
 import org.commonmark.ext.autolink.AutolinkExtension
 import org.commonmark.ext.front.matter.YamlFrontMatterExtension
