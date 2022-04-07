@@ -1,20 +1,33 @@
+
 plugins {
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("jvm") version "1.6.20"
+    kotlin("plugin.serialization") version "1.6.20"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     application
 }
 
 group = rootProject.property("group") as String
 version = rootProject.property("libVersion") as String
+val main = "${project.group}.Main"
 
 application {
-    mainClass.set("${project.group}.Main")
+    mainClass.set(main)
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+tasks.withType<JavaCompile>().all {
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
+    targetCompatibility = JavaVersion.VERSION_11.toString()
 }
 
 dependencies {
     // cli parameters
     implementation("com.xenomachina:kotlin-argparser:2.0.7")
+    implementation("commons-daemon:commons-daemon:1.3.0")
 
     // web service
     val ktorVersion = "2.0.0-beta-1"
@@ -52,4 +65,16 @@ dependencies {
 // KtLint configuration
 configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
     disabledRules.set(setOf("no-wildcard-imports"))
+}
+
+tasks.register("fatJar", Jar::class.java) {
+    archiveClassifier.set("fat")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest { attributes("Main-Class" to main) }
+    // Internal classes
+    from(sourceSets.main.get().output)
+    // External Dependencies
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+
+    dependsOn("build")
 }
