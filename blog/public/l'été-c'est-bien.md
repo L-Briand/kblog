@@ -1,4 +1,4 @@
 ---
-This is a header
+template: "not_default_template.html"
 ---
 # En effet.

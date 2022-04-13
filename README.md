@@ -48,8 +48,9 @@ show. [You can take a look by yourself of its content.](./blog)
 Inside the `blog` folder lies two sub-folder :
 
 - `templates` It holds templates for **markdown** documents to be rendered as html. Since it's a markdown blog it only
-  search for `.md` files. The default page template is `default_template.html`. All other extensions ending with `.md` are also
-  considered as template ready.
+  search for `.md` files. The default page template is `default_template.html`. If you want to use another template,
+  please add a header section in yaml with a tag `template: "<template_file>"` 
+  (you can find an exemple [here](blog/public/l'été-c'est-bien.md).
 - `public` It contains all publicly available content and documents. Available through `http://localhost:8080/public/`
 
 ### Documents render

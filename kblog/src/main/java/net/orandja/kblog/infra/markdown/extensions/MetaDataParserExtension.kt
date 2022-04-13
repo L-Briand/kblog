@@ -5,27 +5,33 @@ import org.commonmark.node.Block
 import org.commonmark.node.CustomBlock
 import org.commonmark.parser.Parser
 import org.commonmark.parser.Parser.ParserExtension
-import org.commonmark.parser.block.*
+import org.commonmark.parser.block.AbstractBlockParser
+import org.commonmark.parser.block.AbstractBlockParserFactory
+import org.commonmark.parser.block.BlockContinue
+import org.commonmark.parser.block.BlockStart
+import org.commonmark.parser.block.MatchedBlockParser
+import org.commonmark.parser.block.ParserState
 
-class MetaDataBlock(val rawYaml: String) : CustomBlock()
+class MetaDataBlock(var rawYaml: String? = null) : CustomBlock()
 
 object MetaDataParserExtension : ParserExtension {
     override fun extend(parserBuilder: Parser.Builder?) {
         parserBuilder?.customBlockParserFactory(MetaDataBPF())
     }
 
-    class MetaDataBPF : BlockParserFactory {
-        override fun tryStart(state: ParserState, matchedBlockParser: MatchedBlockParser): BlockStart {
+    class MetaDataBPF : AbstractBlockParserFactory() {
+        override fun tryStart(state: ParserState, matchedBlockParser: MatchedBlockParser): BlockStart? {
             val line = state.line.content
             val parentParser = matchedBlockParser.matchedBlockParser
-            if (parentParser is DocumentBlockParser && parentParser.block.firstChild == null && line.startsWith("---"))
-                MetaDataBP()
-            return BlockStart.none()
+            return if (parentParser is DocumentBlockParser && parentParser.block.firstChild == null && line.startsWith("---"))
+                BlockStart.of(MetaDataBP()).atIndex(state.nextNonSpaceIndex)
+            else
+                BlockStart.none()
         }
     }
 
     class MetaDataBP : AbstractBlockParser() {
-        private lateinit var _block: Block
+        private var _block = MetaDataBlock()
         private val rawYaml = StringBuilder()
         override fun getBlock(): Block = _block
 
@@ -33,7 +39,7 @@ object MetaDataParserExtension : ParserExtension {
             parserState ?: return BlockContinue.finished()
             val line = parserState.line.content
             if (line.startsWith("---")) {
-                _block = MetaDataBlock(rawYaml.toString())
+                _block.rawYaml = rawYaml.toString()
                 return BlockContinue.finished()
             }
             rawYaml.append(line)
