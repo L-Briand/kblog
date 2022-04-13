@@ -29,6 +29,9 @@ dependencies {
     implementation("com.xenomachina:kotlin-argparser:2.0.7")
     implementation("commons-daemon:commons-daemon:1.3.0")
 
+    // Serialization
+    implementation("com.charleskorn.kaml:kaml:0.43.0")
+
     // web service
     val ktorVersion = "2.0.0-beta-1"
     implementation("io.ktor:ktor-server-core:$ktorVersion")

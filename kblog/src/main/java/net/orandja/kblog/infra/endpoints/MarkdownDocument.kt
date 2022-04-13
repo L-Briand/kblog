@@ -22,6 +22,7 @@ class MarkdownDocument(
                 ?.contentAsString()
                 ?.let { TemplateContent(it) }
     }
+
     private val templates = Templates(
         resourcesTemplateProvider,
         config = TemplateConfig(autoEscapeMode = AutoEscapeMode.RAW),
@@ -31,6 +32,8 @@ class MarkdownDocument(
     private suspend fun asHTML(documentId: String): String? {
         val resource = resourcesProvider.publicResource("$documentId.md") ?: return null
         val md = markdownRenderer.generate(resource.contentAsString())
+        println("HEADERS : ")
+        println(markdownRenderer.getMetaDataHeader(md))
         return templates.get("default_template.html").invoke(
             "title" to markdownRenderer.getTitle(md),
             "content" to markdownRenderer.renderToHtml(md),

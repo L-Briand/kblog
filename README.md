@@ -48,23 +48,16 @@ show. [You can take a look by yourself of its content.](./blog)
 Inside the `blog` folder lies two sub-folder :
 
 - `templates` It holds templates for **markdown** documents to be rendered as html. Since it's a markdown blog it only
-  search for `.md` files. The default page template is `md.html`. All other extensions ending with `.md` are also
-  considered as template ready. If a file is named `my_article.funky.md` the software will search for the
-  `funky.md.html` template.
+  search for `.md` files. The default page template is `default_template.html`. All other extensions ending with `.md` are also
+  considered as template ready.
 - `public` It contains all publicly available content and documents. Available through `http://localhost:8080/public/`
 
 ### Documents render
 
 All files ending with `.md` inside the `public` folder are considered "documents" and are directly accessible as root
-page. Example : `public/My article.md` will show as `http://localhost:8080/My-article`.
+page. Example : `public/My-article.md` will show as `http://localhost:8080/My-article`.
 
 Default index file is `index.md` and if a document isn't found it defaults to `404.md`.
-
-If file contains diacritics, the name is automatically freed from them. Example : `./public/Suis-je étonné ?.art.md`
-will appear as `http://localhost:8080/Suis-je-etonne`. Available chars are `[a-z], [A-Z], [0-9], -, _` and it trims
-trailing `-` automatically.
-
-> Note: You can have some undefined behavior if two articles collapse to the same name or have different extension.
 
 ### Arguments
 
