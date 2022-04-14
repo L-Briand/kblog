@@ -51,9 +51,8 @@ class MarkdownRenderer : IMarkdownRenderer {
 
     override fun getMetaDataHeader(markdown: Markdown): String? {
         if (markdown !is Holder) throw IllegalStateException("Markdown not generated correctly")
-        val yamlBlock = markdown.document.firstChild
-        if (yamlBlock !is MetaDataBlock) return null
-        return yamlBlock.rawYaml
+        val metadataBlock = markdown.document.firstChild
+        return (metadataBlock as? MetaDataBlock)?.raw
     }
 
     override fun renderToHtml(markdown: Markdown): String {

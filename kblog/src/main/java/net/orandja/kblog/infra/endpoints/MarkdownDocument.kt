@@ -22,10 +22,12 @@ class MarkdownDocument(
     private val markdownRenderer: IMarkdownRenderer,
     private val resourcesProvider: IResourceManager,
 ) : IKtorModule {
-    // region TODO move or change for something better
+
+    // TODO : Make it a use-case
     @Serializable
     data class TemplateSelector(val template: String)
 
+    // region TODO move or change for something better
     private val resourcesTemplateProvider = object : NewTemplateProvider {
         override suspend fun newGet(template: String): TemplateContent? =
             resourcesProvider.templateResource(template)

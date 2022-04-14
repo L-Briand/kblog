@@ -12,7 +12,7 @@ import org.commonmark.parser.block.BlockStart
 import org.commonmark.parser.block.MatchedBlockParser
 import org.commonmark.parser.block.ParserState
 
-class MetaDataBlock(var rawYaml: String? = null) : CustomBlock()
+class MetaDataBlock(var raw: String? = null) : CustomBlock()
 
 object MetaDataParserExtension : ParserExtension {
     override fun extend(parserBuilder: Parser.Builder?) {
@@ -23,7 +23,8 @@ object MetaDataParserExtension : ParserExtension {
         override fun tryStart(state: ParserState, matchedBlockParser: MatchedBlockParser): BlockStart? {
             val line = state.line.content
             val parentParser = matchedBlockParser.matchedBlockParser
-            return if (parentParser is DocumentBlockParser && parentParser.block.firstChild == null && line.startsWith("---"))
+            val isFirstInDocument = parentParser is DocumentBlockParser && parentParser.block.firstChild == null
+            return if (isFirstInDocument && line.startsWith("---"))
                 BlockStart.of(MetaDataBP()).atIndex(state.nextNonSpaceIndex)
             else
                 BlockStart.none()
@@ -39,7 +40,7 @@ object MetaDataParserExtension : ParserExtension {
             parserState ?: return BlockContinue.finished()
             val line = parserState.line.content
             if (line.startsWith("---")) {
-                _block.rawYaml = rawYaml.toString()
+                _block.raw = rawYaml.toString()
                 return BlockContinue.finished()
             }
             rawYaml.append(line)
