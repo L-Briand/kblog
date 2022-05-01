@@ -27,13 +27,13 @@ class ResourceManager(private val config: IConfig) : IResourceManager {
     override fun publicResource(name: String): IResource? = resource(config.public, name)
     override fun templateResource(name: String): IResource? = resource(config.templates, name)
 
-    override fun allPublic(ext: String): Flow<IResource> = flow {
+    override fun allPublic(): Flow<IResource> = flow {
         config.public.toPath().toFile().walk().onEach {
             if (it.isFile) runBlocking { emit(FileResource(it)) }
         }
     }
 
-    override fun allTemplates(ext: String): Flow<IResource> = flow {
+    override fun allTemplates(): Flow<IResource> = flow {
         config.templates.toPath().toFile().walk().onEach {
             if (it.isFile) runBlocking { emit(FileResource(it)) }
         }

@@ -16,6 +16,7 @@ application {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
     kotlinOptions {
         jvmTarget = "11"
+        freeCompilerArgs += "-opt-in=org.mylibrary.OptInAnnotation"
     }
 }
 
@@ -33,7 +34,7 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.43.0")
 
     // web service
-    val ktorVersion = "2.0.0-beta-1"
+    val ktorVersion = "2.0.0"
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-cio:$ktorVersion")
     implementation("io.ktor:ktor-server-cors:$ktorVersion")
@@ -59,6 +60,7 @@ dependencies {
 
     // Template processor
     implementation("com.soywiz.korlibs.korte:korte:2.7.0")
+    implementation("net.orandja.tt:TT:0.0.4")
 
     // tests
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")

@@ -3,7 +3,8 @@ package net.orandja.kblog.infra.endpoints
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
-import io.ktor.server.plugins.*
+import io.ktor.server.plugins.cachingheaders.*
+import io.ktor.server.plugins.compression.*
 import io.ktor.server.routing.*
 import net.orandja.kblog._domain.IConfig
 import net.orandja.kblog._domain.IKtorModule
@@ -17,7 +18,7 @@ class ResourcesProvider(
     override fun Routing.route() {
         install(Compression)
         install(CachingHeaders) {
-            options { outgoingContent ->
+            options { _, outgoingContent ->
                 when (outgoingContent.contentType?.withoutParameters()) {
                     ContentType.Text.CSS,
                     ContentType.Application.JavaScript,
